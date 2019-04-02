@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended: true}))
 var connection = db.mongoose.connection
 connection.on('error', console.error.bind(console, "MongoDB Connection Error"))
 
-const portNum = process.env.PORTNUM || 3000
+const portNum = process.env.PORT || 3000
 
 const auth_token_authenticator = joi.string().length(26).required()
 
