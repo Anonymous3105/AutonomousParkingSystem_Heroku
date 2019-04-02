@@ -120,10 +120,12 @@ var sessions = {}
 // var payments = {}
 
 function generateAuthToken() {
+    console.log("[INFO] Getting Auth Token")
     return Math.random().toString(36).padEnd(15, '0').substring(2, 15) + Math.random().toString(36).padEnd(15, '0').substring(2, 15);
 }
 
 function getCurrentBookings(user) {
+    console.log("[INFO] Getting current bookings list")
     var filters = {
         'user': user,
         'dateTimeOfExit': undefined
@@ -134,15 +136,21 @@ function getCurrentBookings(user) {
         .populate('lot')
         .populate('spot')
         .then(currentBookings => {
+            console.log("[INFO] Got current bookings")
             resolve(currentBookings)
-        }).catch(err => reject(err))
+        }).catch(err => {
+            console.log("[ERR] Something went wrong with getting current bookings!")
+            reject(err)
+        })
     })
 }
 
 function getCurrentBookingAtLot(user, client) {
+    console.log("[INFO] Getting current bookings at lot")
     return new Promise((resolve, reject) => {
         db.Lot_Details.find({user: user})
         .then(lots => {
+            console.log("[INFO] Got lot info")
             var lot = lots[0]
             return db.Booking_Details.find({
                 'user': client,
@@ -152,8 +160,12 @@ function getCurrentBookingAtLot(user, client) {
             .populate('lot')
             .populate('spot')
             .then(currentBookings => {
+                console.log("[INFO] Got current bookings at lot")
                 resolve(currentBookings)
-            }).catch(err => reject(err))
+            }).catch(err => {
+                console.log("[ERR] Something went wrong with getting current bookings at lot")
+                reject(err)
+            })
         })
     })
 }
@@ -161,7 +173,8 @@ function getCurrentBookingAtLot(user, client) {
 app.use((req, res, next) => {
     var auth_validator = joi.object(validators['authorized']).unknown() 
     const result = auth_validator.validate(req.body)
-    
+    console.log("[INFO] Validating request")
+
     if(req.url === '/') {
         // not needing authentication (or to provide help text to unauthorized users)
         if (result.error) {
@@ -211,12 +224,15 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
+    console.log("[INFO] Sending list of non auth endpoints")
     res.send({'allowedEndpoints': nonAuthEndpointsList})
 })
 
 app.post('/', (req, res) => {
+    console.log("[INFO] Attempting to send list of auth endpaths")
     db.User_Details.find({'_id': sessions[req.body.auth_token]})
     .then(user_details => {
+        console.log("[INFO] Found user object. Comparing roles and sending list of auth endpoints")
         switch (user_details[0].role) {
             case 'admin':
                 res.send({'allowedEndpoints': authAdminEndpointsList})
