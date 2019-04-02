@@ -1,0 +1,31 @@
+{
+  "name": "autonmous_parking_system",
+  "version": "1.0.0",
+  "description": "Autonomous Parking System using node and mongo",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anonymous3105/AutonomousParkingSystem_Heroku.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "Mongo",
+    "Express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anonymous3105/AutonomousParkingSystem_Heroku/issues"
+  },
+  "homepage": "https://github.com/Anonymous3105/AutonomousParkingSystem_Heroku#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "joi": "^14.3.1",
+    "mongoose": "^5.4.20"
+  },
+  "devDependencies": {}
+}
