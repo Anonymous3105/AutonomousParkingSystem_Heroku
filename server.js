@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended: true}))
 var connection = db.mongoose.connection
 connection.on('error', console.error.bind(console, "MongoDB Connection Error"))
 
-const defaultPortNum = 3000
+const portNum = process.env.PORTNUM || 3000
 
 const auth_token_authenticator = joi.string().length(26).required()
 
@@ -679,4 +679,4 @@ app.post('*', (req, res) => {
     res.send(res_body)
 })
 
-app.listen(process.env.PORTNUM || defaultPortNum, () => console.log("Server is up at", portNum))
+app.listen(portNum, () => console.log("Server is up at", portNum))
