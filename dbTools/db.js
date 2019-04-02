@@ -3,7 +3,12 @@ const Schema = mongoose.Schema
 const ObjectID = Schema.Types.ObjectId
 
 
-mongoose.connect('mongodb://localhost/parking_system', {useNewUrlParser: true})
+const adminUsername = process.env.MONGO_ATLAS_USERNAME
+const adminPassword = process.env.MONGO_ATLAS_PASSWORD
+
+const uri = "mongodb+srv://" + adminUsername + ":" + adminPassword + "@cluster0-dwxij.mongodb.net/parkingDB?retryWrites=true"
+
+mongoose.connect(uri, {useNewUrlParser: true})
 mongoose.set('useCreateIndex', true)
 
 const user_details_schema = new Schema({
